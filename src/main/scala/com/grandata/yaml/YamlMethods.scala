@@ -56,29 +56,6 @@ trait YamlMethods extends org.json4s.JsonMethods[JValue] {
   def parse(in: JsonInput, useBigDecimalForDouble: Boolean = false): JValue = {
     import scala.collection.JavaConversions._
 
-    // TODO: implement using parser to avoid traversing the tree thre times.
-//    val parseEvents = in match {
-//      case StringInput(s) =>  yaml.parse(new StringReader(s))
-//      case ReaderInput(rdr) => yaml.parse(rdr)
-//      case StreamInput(stream) => yaml.parse(new InputStreamReader(stream))
-//      case FileInput(file) => yaml.parse(new FileReader(file))
-//    }
-//
-//    parseEvents.iterator.toStream.map { event =>
-//      event match {
-//        StreamStartEvent
-//      }
-//    }
-
-    // TODO: at least implement using composer to avoid traversing the twice.
-//    val tree = in match {
-//      case StringInput(s) =>  yaml.compose(new StringReader(s))
-//      case ReaderInput(rdr) => yaml.compose(rdr)
-//      case StreamInput(stream) => yaml.compose(new InputStreamReader(stream))
-//      case FileInput(file) => yaml.compose(new FileReader(file))
-//    }
-//
-
     // WARNING: Yaml.load() accepts a String or an InputStream object. Yaml.load(InputStream stream) detects the encoding by checking the BOM (byte order mark) sequence at the beginning of the stream. If no BOM is present, the utf-8 encoding is assumed.
     // WARNING: Right now I cannot distinguish between null and nothing.
 
@@ -126,27 +103,9 @@ trait YamlMethods extends org.json4s.JsonMethods[JValue] {
         JInt(BigInt(i))
     }
   }
-
-//
-//
-//  def compact(d: JValue): String = mapper.writeValueAsString(d)
-//
-//  def pretty(d: JValue): String = {
-//    val writer = mapper.writerWithDefaultPrettyPrinter[ObjectWriter]()
-//    writer.writeValueAsString(d)
-//  }
-//
-//
-//  def asJValue[T](obj: T)(implicit writer: Writer[T]): JValue = writer.write(obj)
-//  def fromJValue[T](json: JValue)(implicit reader: Reader[T]): T = reader.read(json)
-//
-//  def asJsonNode(jv: JValue): JsonNode = mapper.valueToTree[JsonNode](jv)
-//  def fromJsonNode(jn: JsonNode): JValue = mapper.treeToValue[JValue](jn, classOf[JValue])
-
 }
 
 object YamlMethods extends YamlMethods {
-
   // This is because yaml is not thread safe
   private val threadYaml: java.lang.ThreadLocal[Yaml] = new java.lang.ThreadLocal[Yaml] {
     override protected def initialValue() = new Yaml()
