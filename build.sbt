@@ -33,4 +33,4 @@ libraryDependencies += "org.json4s" %% "json4s-native" % "3.2.11"
 
 libraryDependencies += "org.yaml" % "snakeyaml" % "1.15"
 
-//  coverageEnabled.in(Test, test) := true
+coverageEnabled.in(Test, test) := true

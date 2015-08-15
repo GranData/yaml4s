@@ -23,7 +23,6 @@ class YamlMethodsDumpSpec extends Specification {
           JNull)
       )
 
-      println(YamlMethods.compact(json))
       YamlMethods.compact(json) mustEqual JsonMethods.compact(JsonMethods.render(json))
     }
   }
