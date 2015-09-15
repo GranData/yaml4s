@@ -74,6 +74,8 @@ trait YamlMethods extends org.json4s.JsonMethods[JValue] {
     node match {
       case null => JNull
 
+      case s: String => JString(s)
+
       case l: java.util.List[_] =>
         JArray(l.toList.map { v =>
           getJValue(v.asInstanceOf[AnyRef])
@@ -93,7 +95,7 @@ trait YamlMethods extends org.json4s.JsonMethods[JValue] {
         else JDouble(f)
 
       case f: java.lang.Float =>
-        if (useBigDecimalForDouble) JDecimal(BigDecimal.decimal(f))
+        if (useBigDecimalForDouble) JDecimal(BigDecimal(f.toDouble))
         else JDouble(f.toDouble)
 
       case b: java.lang.Boolean =>

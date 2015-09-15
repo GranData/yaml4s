@@ -1,12 +1,28 @@
 name := "yaml4s"
 
-version := "0.1.0"
+version := "0.1.0-SNAPSHOT"
+
+organization := "com.grandata"
 
 scalaVersion := "2.11.7"
 
+crossScalaVersions := Seq("2.10.4", "2.11.7")
+
 scalacOptions in ThisBuild ++= Seq("-unchecked", "-deprecation")
 
+scalacOptions in Test ++= Seq("-Yrangepos")
+
+
 credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
+
+publishTo := {
+  val url = "https://nexus.grandata.com/content/repositories"
+  if (version.value.trim.endsWith("SNAPSHOT"))
+    Some("Grandata Snapshots" at url + "/snapshots")
+  else
+    Some("Grandata Releases" at url + "/releases")
+}
+
 
 //resolvers += "Sonatype Nexus Repository Manager" at "https://nexus.grandata.com/content/repositories/releases"
 resolvers += "Sonatype Nexus Repository Manager" at "https://nexus.grandata.com/content/repositories/snapshots"

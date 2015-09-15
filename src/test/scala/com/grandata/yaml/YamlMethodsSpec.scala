@@ -88,6 +88,10 @@ class YamlMethodsSpec extends Specification {
       parsed mustEqual JArray(List(JInt(1), JInt(2), JNull))
     }
 
+    "parse a string" in {
+      YamlMethods.parse("hello") mustEqual JString("hello")
+    }
+
     "parse empty array" in {
       YamlMethods.parse("[]") mustEqual JArray(Nil)
     }
@@ -96,20 +100,24 @@ class YamlMethodsSpec extends Specification {
       YamlMethods.parse("{}") mustEqual JObject(Nil)
     }
 
-    "parse a simple int dictionary" in {
+    "parse a simple dictionary" in {
       val source =
         """
+          |encoding: UTF-8
           |key: 1
           |another_key: 2
           |null_key: null
+          |a_string: I'm a string
         """.stripMargin
 
       val parsed = YamlMethods.parse(source)
 
-
+      println(s"Hola: ${(parsed \ "encoding") }")
+      (parsed \ "encoding") mustEqual JString("UTF-8")
       (parsed \ "key") mustEqual JInt(1)
       (parsed \ "another_key") mustEqual JInt(2)
       (parsed \ "null_key") mustEqual JNull
+      (parsed \ "a_string") mustEqual JString("I'm a string")
     }
   }
 }
